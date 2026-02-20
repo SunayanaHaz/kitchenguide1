@@ -1,1 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>KitchenGuide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #F4F1EB;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: #1C2333;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      margin-top: 0;
+    }
+
+    .nav {
+      margin-top: 20px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 6px;
+    }
+
+    .nav:hover {
+      background: #D97706;
+    }
+
+    .main {
+      margin-left: 240px;
+      padding: 30px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    button {
+      padding: 8px 12px;
+      background: #D97706;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #b45309;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <h2>KitchenGuide</h2>
+
+  <div class="nav" onclick="showDashboard()">Dashboard</div>
+  <div class="nav" onclick="showAlerts()">Kitchen Alerts</div>
+  <div class="nav" onclick="showROI()">Pitch & ROI</div>
+</div>
+
+<div class="main">
+  <div id="content"></div>
+</div>
+
+<script>
+function showDashboard() {
+  document.getElementById("content").innerHTML =
+  `<div class="card">
+      <h2>Operations Dashboard</h2>
+      <p><b>Orders This Hour:</b> 428</p>
+      <p><b>Waste Risk Index:</b> 62 (High)</p>
+    </div>`;
+}
+
+function showAlerts() {
+  document.getElementById("content").innerHTML =
+  `<div class="card">
+      <h2>Kitchen Alerts</h2>
+      <ul>
+        <li>PREP: Stage 20 chicken portions now</li>
+        <li>HOLD: Stop prepping lettuce (overstock risk)</li>
+        <li>DELAY: Reduce fries batch size</li>
+      </ul>
+      <button onclick="showAlerts()">Regenerate Alerts</button>
+    </div>`;
+}
+
+function showROI() {
+  document.getElementById("content").innerHTML =
+  `<div class="card">
+      <h2>Business Impact</h2>
+      <p>40 stores</p>
+      <p>$450,000 per store annual perishables</p>
+      <p>8% waste rate</p>
+      <p>25% waste reduction</p>
+      <h3>Projected Annual Savings: $360,000</h3>
+      <h3>ROI: 3.75x</h3>
+    </div>`;
+}
+
+showDashboard();
+</script>
+
+</body>
+</html>
