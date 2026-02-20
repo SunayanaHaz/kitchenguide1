@@ -1,120 +1,176 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>KitchenGuide</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KitchenGuide — AI Operations</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet"/>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #F4F1EB;
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Sora',sans-serif; background:#0F1724; color:#E2E8F0; min-height:100vh; }
+
+    header {
+      background:linear-gradient(135deg,#1C2333,#242D42);
+      padding:60px 24px 50px;
+      text-align:center;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .logo { font-size:42px; font-weight:800; color:#FBB040; letter-spacing:-1px; }
+    .tagline { font-size:16px; color:#94A3B8; margin-top:8px; }
+    .badge {
+      display:inline-block; margin-top:16px;
+      background:rgba(251,176,64,.15); border:1px solid rgba(251,176,64,.3);
+      color:#FBB040; font-size:12px; font-weight:600; padding:5px 14px; border-radius:20px;
     }
 
-    .sidebar {
-      width: 220px;
-      background: #1C2333;
-      color: white;
-      height: 100vh;
-      position: fixed;
-      padding: 20px;
+    .download-btn {
+      display:inline-flex; align-items:center; gap:8px;
+      margin-top:28px; padding:14px 28px;
+      background:#D97706; color:#fff; font-size:15px; font-weight:700;
+      border-radius:8px; text-decoration:none;
+      transition:background .2s, transform .15s;
+      box-shadow:0 4px 20px rgba(217,119,6,.35);
+    }
+    .download-btn:hover { background:#B45309; transform:translateY(-2px); }
+
+    .section { max-width:900px; margin:0 auto; padding:50px 24px; }
+    .section-title {
+      font-size:22px; font-weight:700; color:#FBB040;
+      margin-bottom:28px; padding-bottom:10px;
+      border-bottom:1px solid rgba(255,255,255,.08);
     }
 
-    .sidebar h2 {
-      margin-top: 0;
-    }
-
-    .nav {
-      margin-top: 20px;
-      cursor: pointer;
-      padding: 8px;
-      border-radius: 6px;
-    }
-
-    .nav:hover {
-      background: #D97706;
-    }
-
-    .main {
-      margin-left: 240px;
-      padding: 30px;
-    }
-
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; }
     .card {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background:#1C2333; border:1px solid rgba(255,255,255,.08);
+      border-radius:10px; padding:22px 18px; text-align:center;
+      transition:transform .2s, border-color .2s;
+    }
+    .card:hover { transform:translateY(-4px); border-color:rgba(251,176,64,.4); }
+    .card-icon { font-size:32px; margin-bottom:10px; }
+    .card-title { font-size:14px; font-weight:700; color:#F1F5F9; margin-bottom:6px; }
+    .card-desc { font-size:12px; color:#64748B; line-height:1.5; }
+
+    .prediction-box {
+      background:linear-gradient(135deg,#1C2333,#1a2744);
+      border:1px solid rgba(251,176,64,.25); border-radius:12px;
+      padding:28px; margin:0 auto 24px; max-width:900px;
+    }
+    .pred-label { font-size:11px; color:#FBB040; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:12px; }
+    .pred-quote {
+      font-size:20px; color:#F1F5F9; font-style:italic; line-height:1.6;
+      border-left:3px solid #D97706; padding-left:16px;
+    }
+    .pred-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+    .pred-tag {
+      font-size:11px; font-weight:600; padding:4px 12px; border-radius:4px;
+      background:rgba(255,255,255,.07); color:#94A3B8;
     }
 
-    button {
-      padding: 8px 12px;
-      background: #D97706;
-      border: none;
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
+    .locs { display:flex; flex-wrap:wrap; gap:8px; }
+    .loc-chip {
+      font-size:11px; font-weight:600; padding:5px 12px; border-radius:20px;
+      background:#1C2333; border:1px solid rgba(255,255,255,.08); color:#94A3B8;
     }
 
-    button:hover {
-      background: #b45309;
+    footer {
+      text-align:center; padding:30px 24px;
+      border-top:1px solid rgba(255,255,255,.06);
+      color:#334155; font-size:12px;
     }
   </style>
 </head>
-
 <body>
 
-<div class="sidebar">
-  <h2>KitchenGuide</h2>
+<header>
+  <div class="logo">🍳 KitchenGuide</div>
+  <div class="tagline">AI-Powered Restaurant Operations Intelligence</div>
+  <div class="badge">✦ Washington State · 40 Locations · Live AI</div>
+  <br/>
+  <a class="download-btn" href="kitchenguide.pptx" download>
+    ⬇️ Download Presentation (.pptx)
+  </a>
+</header>
 
-  <div class="nav" onclick="showDashboard()">Dashboard</div>
-  <div class="nav" onclick="showAlerts()">Kitchen Alerts</div>
-  <div class="nav" onclick="showROI()">Pitch & ROI</div>
+<div style="background:#0F1724">
+
+  <!-- PREDICTION HIGHLIGHT -->
+  <div class="section" style="padding-bottom:0">
+    <div class="section-title">🔮 What KitchenGuide Predicts</div>
+  </div>
+  <div class="prediction-box" style="margin:0 24px 0; max-width:900px; margin:0 auto;">
+    <div class="pred-label">✦ AI Prediction Example</div>
+    <div class="pred-quote">
+      "Next Tuesday: 83 meals. Rain expected. No event nearby. Order 12% less tomatoes."
+    </div>
+    <div class="pred-tags">
+      <span class="pred-tag">🌧️ Rain expected</span>
+      <span class="pred-tag">📍 No event nearby</span>
+      <span class="pred-tag">📦 83 meals forecasted</span>
+      <span class="pred-tag">🍅 -12% tomatoes</span>
+      <span class="pred-tag">🎯 81% confidence</span>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="section">
+    <div class="section-title">⚡ Features</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Live Dashboard</div>
+        <div class="card-desc">Real-time order demand, waste risk, and AI confidence scores</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🍳</div>
+        <div class="card-title">Kitchen Alerts</div>
+        <div class="card-desc">AI-generated HOLD / PREP / DELAY directives updated every 15 min</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <div class="card-title">Ingredient Forecast</div>
+        <div class="card-desc">Waste Risk Index and confidence scores for every ingredient</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📦</div>
+        <div class="card-title">Lean Reorder</div>
+        <div class="card-desc">Just-in-time supplier orders using lean manufacturing principles</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗺️</div>
+        <div class="card-title">Chain Overview</div>
+        <div class="card-desc">Heatmap of all 40 Washington locations with performance metrics</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔮</div>
+        <div class="card-title">Predictions</div>
+        <div class="card-desc">Weather + event-aware demand forecasts up to 7 days ahead</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOCATIONS -->
+  <div class="section" style="padding-top:0">
+    <div class="section-title">📍 Washington State Coverage</div>
+    <div class="locs">
+      <span class="loc-chip">Seattle</span><span class="loc-chip">Bellevue</span>
+      <span class="loc-chip">Tacoma</span><span class="loc-chip">Spokane</span>
+      <span class="loc-chip">Redmond</span><span class="loc-chip">Kirkland</span>
+      <span class="loc-chip">Everett</span><span class="loc-chip">Olympia</span>
+      <span class="loc-chip">Vancouver</span><span class="loc-chip">Bellingham</span>
+      <span class="loc-chip">Yakima</span><span class="loc-chip">Kennewick</span>
+      <span class="loc-chip">Pasco</span><span class="loc-chip">Richland</span>
+      <span class="loc-chip">Wenatchee</span><span class="loc-chip">Walla Walla</span>
+      <span class="loc-chip">Pullman</span><span class="loc-chip">Marysville</span>
+      <span class="loc-chip">Lynnwood</span><span class="loc-chip">+ 21 more</span>
+    </div>
+  </div>
+
 </div>
 
-<div class="main">
-  <div id="content"></div>
-</div>
-
-<script>
-function showDashboard() {
-  document.getElementById("content").innerHTML =
-  `<div class="card">
-      <h2>Operations Dashboard</h2>
-      <p><b>Orders This Hour:</b> 428</p>
-      <p><b>Waste Risk Index:</b> 62 (High)</p>
-    </div>`;
-}
-
-function showAlerts() {
-  document.getElementById("content").innerHTML =
-  `<div class="card">
-      <h2>Kitchen Alerts</h2>
-      <ul>
-        <li>PREP: Stage 20 chicken portions now</li>
-        <li>HOLD: Stop prepping lettuce (overstock risk)</li>
-        <li>DELAY: Reduce fries batch size</li>
-      </ul>
-      <button onclick="showAlerts()">Regenerate Alerts</button>
-    </div>`;
-}
-
-function showROI() {
-  document.getElementById("content").innerHTML =
-  `<div class="card">
-      <h2>Business Impact</h2>
-      <p>40 stores</p>
-      <p>$450,000 per store annual perishables</p>
-      <p>8% waste rate</p>
-      <p>25% waste reduction</p>
-      <h3>Projected Annual Savings: $360,000</h3>
-      <h3>ROI: 3.75x</h3>
-    </div>`;
-}
-
-showDashboard();
-</script>
+<footer>
+  Built with KitchenGuide AI · Washington State · 2026
+</footer>
 
 </body>
 </html>
